@@ -4,36 +4,39 @@ using System.IO;
 class TextFromSubTitles{
 static void Main()
 {
-
-
-    ReWriteToAnotherFile rew =new ReWriteToAnotherFile();
-    rew.ReadAndWrite(2,3);
-	rew.ReadAndWrite(7,8);
-	rew.ReadAndWrite(12,13);
-	rew.ReadAndWrite(17,17);
-	// Find a line with a pattern and return its number or null
-	// if it isn't found
+    
 	FindAStringWithAPattern findALine = new FindAStringWithAPattern();
-	Console.WriteLine("----------{0}-----------",findALine.numberOfStringFound());
-	Console.WriteLine("----------{0}-----------",findALine.numberOfStringFound());
-	Console.WriteLine("----------{0}-----------",findALine.numberOfStringFound());
-	Console.WriteLine("----------{0}-----------",findALine.numberOfStringFound());
-
+	ReWriteToAnotherFile rew =new ReWriteToAnotherFile();
+	int lineNumber1,lineNumber2;
+	while(true)
+	{
+		if(!findALine.endOfFileReached)
+		if((lineNumber1 = findALine.numberOfTheStringFound())!=-1)
+			if((lineNumber2 = findALine.numberOfTheStringFound())!=-1)
+				rew.ReadAndWrite(lineNumber1,lineNumber2);
+			else
+				rew.ReadAndWrite(lineNumber1,findALine.amountOfStrings);
+	}	
+	
 }	
 
 }
 class FindAStringWithAPattern
 {
+	public int  amountOfStrings;
+	public bool endOfFileReached=false;
+	
 	private string readLine;
 	private int currentPosition = 0;
 	private int foundNumber = -1;
+	
 	StreamReader sr = File.OpenText("Мышиная возня.srt");
 
-	public int numberOfStringFound()
+	public int numberOfTheStringFound()
 	{
 		while((readLine = sr.ReadLine())!=null)
 		{	
-			Console.WriteLine(readLine);
+			
 			if(readLine.IndexOf("-->")==13)
 			{
 				foundNumber = currentPosition;
@@ -44,6 +47,11 @@ class FindAStringWithAPattern
 			{
 				currentPosition++;
 			}	
+		}
+		if(readLine==null)
+		{
+			amountOfStrings=currentPosition;
+			endOfFileReached=true;
 		}
 		return foundNumber;	
 	}
