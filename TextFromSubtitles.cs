@@ -1,3 +1,4 @@
+//Nearest task is to create a repository for the project on GitHub
 using System;
 using System.IO;
 class TextFromSubTitles{
@@ -11,12 +12,44 @@ static void Main()
 	rew.ReadAndWrite(12,13);
 	rew.ReadAndWrite(17,17);
 	// Find a line with a pattern and return its number or null
-	// if ir isn't found
-
+	// if it isn't found
+	FindAStringWithAPattern findALine = new FindAStringWithAPattern();
+	Console.WriteLine("----------{0}-----------",findALine.numberOfStringFound());
+	Console.WriteLine("----------{0}-----------",findALine.numberOfStringFound());
+	Console.WriteLine("----------{0}-----------",findALine.numberOfStringFound());
+	Console.WriteLine("----------{0}-----------",findALine.numberOfStringFound());
 
 }	
-	
+
 }
+class FindAStringWithAPattern
+{
+	private string readLine;
+	private int currentPosition = 0;
+	private int foundNumber = -1;
+	StreamReader sr = File.OpenText("Мышиная возня.srt");
+
+	public int numberOfStringFound()
+	{
+		while((readLine = sr.ReadLine())!=null)
+		{	
+			Console.WriteLine(readLine);
+			if(readLine.IndexOf("-->")==13)
+			{
+				foundNumber = currentPosition;
+				currentPosition++;
+				break;
+			}
+			else		
+			{
+				currentPosition++;
+			}	
+		}
+		return foundNumber;	
+	}
+
+}
+
 class ReWriteToAnotherFile{
 	
 	private string readLine;
@@ -32,13 +65,10 @@ class ReWriteToAnotherFile{
 			readLine = sr.ReadLine();
 			if (currentPosition < startTransfer)
 			{
-				Console.WriteLine("--pass--  {0}",readLine);
 				continue;
-			
 			}
 			else
 			{
-				Console.WriteLine("--write-- {0}",readLine);
 				sw.WriteLine(readLine);
 			}
 		} 
