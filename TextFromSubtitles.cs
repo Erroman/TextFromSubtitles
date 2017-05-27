@@ -7,17 +7,30 @@ static void Main()
     
 	FindAStringWithAPattern findALine = new FindAStringWithAPattern();
 	ReWriteToAnotherFile rew =new ReWriteToAnotherFile();
-	int lineNumber1,lineNumber2;
+	int startPosition= -1;
+	int endPosition  = -1;
 	while(true)
 	{
-		if(!findALine.endOfFileReached)
-		if((lineNumber1 = findALine.numberOfTheStringFound())!=-1)
-			if((lineNumber2 = findALine.numberOfTheStringFound())!=-1)
-				rew.ReadAndWrite(lineNumber1,lineNumber2);
+		endPosition = findALine.numberOfTheStringFound();
+		if(endPosition == -1) endPosition = findALine.amountOfStrings-1;
+		if(findALine.endOfFileReached)
+		{
+			if(startPosition==-1)
+				break;
 			else
-				rew.ReadAndWrite(lineNumber1,findALine.amountOfStrings);
+			{
+				rew.ReadAndWrite(startPosition+1,endPosition-2);
+				break;
+			}
+			
+				
+		}
+		else
+		{
+			rew.ReadAndWrite(startPosition+1,endPosition-2);
+			startPosition=endPosition;
+		}
 	}	
-	
 }	
 
 }
@@ -37,7 +50,7 @@ class FindAStringWithAPattern
 		while((readLine = sr.ReadLine())!=null)
 		{	
 			
-			if(readLine.IndexOf("-->")==13)
+			if(readLine.IndexOf("-->")>-1)
 			{
 				foundNumber = currentPosition;
 				currentPosition++;
@@ -78,6 +91,7 @@ class ReWriteToAnotherFile{
 			else
 			{
 				sw.WriteLine(readLine);
+				Console.WriteLine(readLine);
 			}
 		} 
 		sw.Flush();
