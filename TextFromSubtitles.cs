@@ -1,10 +1,20 @@
 //Nearest task is to create a repository for the project on GitHub
 using System;
 using System.IO;
+using System.Windows.Forms;
 class TextFromSubTitles{
+//static Form form = null;	
 static void Main()
 {
-    
+	Form form = new Form();
+	Button btn = new Button();
+	form.Controls.Add(btn);
+	btn.Click+=(x,y)=>MessageBox.Show("I am clicked !");
+   Application.Run(form);
+}
+static void doConversion()
+{
+ 
 	FindAStringWithAPattern findALine = new FindAStringWithAPattern();
 	ReWriteToAnotherFile rew =new ReWriteToAnotherFile();
 	int startPosition= -1;
@@ -30,8 +40,8 @@ static void Main()
 			rew.ReadAndWrite(startPosition+1,endPosition-2);
 			startPosition=endPosition;
 		}
-	}	
-}	
+	}		
+}
 
 }
 class FindAStringWithAPattern
