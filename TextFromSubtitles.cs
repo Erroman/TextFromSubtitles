@@ -2,14 +2,31 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
+using System.ComponentModel;
 class TextFromSubTitles{
 //static Form form = null;	
+static public string fileNameWithSubtitles;
+[STAThread]
 static void Main()
 {
 	Form form = new Form();
 	Button btn = new Button();
-	form.Controls.Add(btn);
-	btn.Click+=(x,y)=>MessageBox.Show("I am clicked !");
+	TextBox tbx = new TextBox();
+	tbx.Location = new System.Drawing.Point(76, 79);
+	btn.Location = new System.Drawing.Point(76, 99);
+	FlowLayoutPanel panel = new FlowLayoutPanel();
+	panel.Controls.Add(btn);
+	panel.Controls.Add(tbx);	
+	
+	form.Controls.Add(panel);
+	btn.Click += (x,y)=> 
+	{
+	   fileNameWithSubtitles = tbx.Text;
+	   doConversion();
+	   
+	};	
+	//System.ComponentModel.IContainer components = new System.ComponentModel.Container();
+	
    Application.Run(form);
 }
 static void doConversion()
@@ -53,7 +70,7 @@ class FindAStringWithAPattern
 	private int currentPosition = 0;
 	private int foundNumber = -1;
 	
-	StreamReader sr = File.OpenText("Мышиная возня.srt");
+	StreamReader sr = File.OpenText(TextFromSubTitles.fileNameWithSubtitles);
 
 	public int numberOfTheStringFound()
 	{
@@ -86,8 +103,9 @@ class ReWriteToAnotherFile{
 	private string readLine;
 	private int currentPosition = 0;
 
-	StreamReader sr = File.OpenText("Мышиная возня.srt");
-	StreamWriter  sw = File.CreateText("Мышиная возня.txt");
+	StreamReader sr = File.OpenText(TextFromSubTitles.fileNameWithSubtitles);
+	 static  string fileNameWithSubtitles = TextFromSubTitles.fileNameWithSubtitles.Substring(0,TextFromSubTitles.fileNameWithSubtitles.Length-3)+"txt";
+	StreamWriter  sw = File.CreateText(fileNameWithSubtitles);
     
 	public int ReadAndWrite(int startTransfer,int endTransfer)
 	{
