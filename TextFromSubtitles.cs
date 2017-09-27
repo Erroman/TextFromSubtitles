@@ -6,28 +6,16 @@ using System.ComponentModel;
 class TextFromSubTitles{
 //static Form form = null;	
 static public string fileNameWithSubtitles;
-[STAThread]
-static void Main()
+static void Main(String[] args)
 {
-	Form form = new Form();
-	Button btn = new Button();
-	TextBox tbx = new TextBox();
-	tbx.Location = new System.Drawing.Point(76, 79);
-	btn.Location = new System.Drawing.Point(76, 99);
-	FlowLayoutPanel panel = new FlowLayoutPanel();
-	panel.Controls.Add(btn);
-	panel.Controls.Add(tbx);	
-	
-	form.Controls.Add(panel);
-	btn.Click += (x,y)=> 
+	if(args.Length>0)
+	   fileNameWithSubtitles = args[0];
+	else
 	{
-	   fileNameWithSubtitles = tbx.Text;
+		Console.WriteLine("Enter the file name for stripping as the first parameter: TextFromSubtitles <filename.srt>");
+		Environment.Exit(0);
+	}
 	   doConversion();
-	   
-	};	
-	//System.ComponentModel.IContainer components = new System.ComponentModel.Container();
-	
-   Application.Run(form);
 }
 static void doConversion()
 {
@@ -119,7 +107,6 @@ class ReWriteToAnotherFile{
 			else
 			{
 				sw.WriteLine(readLine);
-				Console.WriteLine(readLine);
 			}
 		} 
 		sw.Flush();
